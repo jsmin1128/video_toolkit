@@ -48,6 +48,12 @@ body:hover .controls {
   opacity: 1;
 }
 
+.table {
+  right: 0;
+  bottom: 100%;
+  padding-bottom: 6px;
+}
+
 body:hover .subtitle {
   bottom: 52px;
 }

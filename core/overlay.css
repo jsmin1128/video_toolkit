@@ -18,3 +18,10 @@
 .panel[hidden] {
   display: none;
 }
+
+.table {
+  top: 100%;
+  left: 50%;
+  padding-top: 6px;
+  transform: translateX(-50%);
+}

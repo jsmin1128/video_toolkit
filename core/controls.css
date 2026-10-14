@@ -18,6 +18,7 @@ button:hover {
 }
 
 .speed {
+  position: relative;
   display: flex;
   align-items: center;
 }
@@ -25,4 +26,33 @@ button:hover {
 .value {
   min-width: 52px;
   font-variant-numeric: tabular-nums;
+}
+
+.table {
+  position: absolute;
+  z-index: 1;
+}
+
+.table[hidden] {
+  display: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  padding: 4px;
+  border-radius: 8px;
+  background: rgb(0 0 0 / 80%);
+}
+
+.grid button {
+  min-width: 48px;
+  font-variant-numeric: tabular-nums;
+}
+
+.grid .current,
+.grid .current:hover {
+  background: #fff;
+  color: #000;
 }
