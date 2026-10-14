@@ -28,13 +28,18 @@ export function createOverlay(ctx: ContentScriptContext, controls: Control[]) {
     panel.addEventListener(type, (event) => event.stopPropagation());
   }
 
+  const videos = document.getElementsByTagName('video');
   let hovering = false;
   let hideTimer: number | undefined;
 
   function show(video: HTMLVideoElement) {
+    const fullscreen = document.fullscreenElement;
+    // Nothing can be drawn over a <video> that is fullscreen by itself.
+    if (fullscreen instanceof HTMLVideoElement) return;
+
     for (const control of controls) control.update(video);
 
-    const parent = document.fullscreenElement ?? document.body;
+    const parent = fullscreen ?? document.body;
     if (host.parentNode !== parent) parent.append(host);
 
     const rect = video.getBoundingClientRect();
@@ -63,7 +68,8 @@ export function createOverlay(ctx: ContentScriptContext, controls: Control[]) {
     document,
     'mousemove',
     (event) => {
-      const video = findVideoAt(event.clientX, event.clientY);
+      if (videos.length === 0) return;
+      const video = findVideoAt(videos, event.clientX, event.clientY);
       if (video) show(video);
       else if (!hovering) hide();
     },
@@ -73,8 +79,8 @@ export function createOverlay(ctx: ContentScriptContext, controls: Control[]) {
   ctx.onInvalidated(() => host.remove());
 }
 
-function findVideoAt(x: number, y: number) {
-  for (const video of document.querySelectorAll('video')) {
+function findVideoAt(videos: HTMLCollectionOf<HTMLVideoElement>, x: number, y: number) {
+  for (const video of videos) {
     const rect = video.getBoundingClientRect();
     const inside = x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
     if (inside && rect.width >= MIN_VIDEO_WIDTH) return video;

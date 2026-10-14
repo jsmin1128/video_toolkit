@@ -4,9 +4,13 @@ import { createSpeedControl, keepSpeed } from '@/features/speed';
 import { createSubtitlePipButton } from '@/features/subtitle-pip';
 
 export default defineContentScript({
-  matches: ['*://*.netflix.com/*'],
+  matches: ['<all_urls>'],
+  allFrames: true,
   main(ctx) {
     keepSpeed(ctx);
-    createOverlay(ctx, [createSpeedControl(), createPipButton(), createSubtitlePipButton()]);
+    const controls = [createSpeedControl(), createPipButton()];
+    // Chrome opens the subtitle PiP window only from the top page, not from iframes.
+    if (window === window.top) controls.push(createSubtitlePipButton());
+    createOverlay(ctx, controls);
   },
 });

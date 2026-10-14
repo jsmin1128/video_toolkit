@@ -8,8 +8,11 @@ declare const documentPictureInPicture: {
   requestWindow(options?: { width?: number; height?: number }): Promise<Window>;
 };
 
-// Netflix draws its subtitles in this element.
-const SUBTITLES = '.player-timedtext';
+// Where each site draws its own subtitles. Subtitles drawn by the browser move with the video.
+const SUBTITLES: Record<string, string | undefined> = {
+  'www.netflix.com': '.player-timedtext',
+  'www.youtube.com': '.ytp-caption-window-container',
+};
 const WIDTH = 480;
 
 const ICON = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
@@ -82,7 +85,7 @@ async function openWindow(video: HTMLVideoElement) {
   });
 
   const update = () => {
-    const text = document.querySelector<HTMLElement>(SUBTITLES)?.innerText ?? '';
+    const text = readSubtitle();
     if (subtitle.textContent !== text) subtitle.textContent = text;
   };
   const observer = new MutationObserver(update);
@@ -94,6 +97,12 @@ async function openWindow(video: HTMLVideoElement) {
     observer.disconnect();
     placeholder.replaceWith(video);
   });
+}
+
+function readSubtitle() {
+  const selector = SUBTITLES[location.hostname];
+  if (!selector) return '';
+  return document.querySelector<HTMLElement>(selector)?.innerText ?? '';
 }
 
 function createPlayButton(video: HTMLVideoElement, signal: AbortSignal) {
