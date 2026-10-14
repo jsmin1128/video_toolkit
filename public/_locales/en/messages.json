@@ -3,5 +3,7 @@
   "extDescription": { "message": "Playback speed and Picture-in-Picture for any video" },
   "chooseSpeed": { "message": "Choose speed" },
   "pip": { "message": "Picture-in-Picture" },
-  "subtitlePip": { "message": "Picture-in-Picture with subtitles" }
+  "subtitlePip": { "message": "Picture-in-Picture with subtitles" },
+  "seekBack": { "message": "Back 10 seconds" },
+  "seekForward": { "message": "Forward 10 seconds" }
 }

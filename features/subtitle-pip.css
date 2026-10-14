@@ -48,6 +48,12 @@ body:hover .controls {
   opacity: 1;
 }
 
+.playback {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
 .table {
   right: 0;
   bottom: 100%;
