@@ -17,16 +17,19 @@ function isShown(video: HTMLVideoElement) {
 }
 
 // A parent that hides its overflow, like a carousel showing one slide at a time, cuts the video off here.
+// The overflow of <body> and <html> scrolls the page instead of cutting anything off.
 function isClipped(video: HTMLVideoElement, x: number, y: number) {
-  for (let element: Element | null = video; element; element = element.parentElement) {
-    const style = getComputedStyle(element);
-    if (element !== video) {
-      const rect = element.getBoundingClientRect();
-      if (style.overflowX !== 'visible' && (x < rect.left || x > rect.right)) return true;
-      if (style.overflowY !== 'visible' && (y < rect.top || y > rect.bottom)) return true;
-    }
-    // Parents do not cut off a fixed element.
-    if (style.position === 'fixed') return false;
+  let position = getComputedStyle(video).position;
+  for (let parent = video.parentElement; parent && parent !== document.body; parent = parent.parentElement) {
+    // A fixed box is cut off by no parent, an absolute one only by positioned parents.
+    if (position === 'fixed') return false;
+    const style = getComputedStyle(parent);
+    if (position === 'absolute' && style.position === 'static') continue;
+    position = style.position;
+    if (style.display === 'contents' || style.display === 'inline') continue;
+    const rect = parent.getBoundingClientRect();
+    if (style.overflowX !== 'visible' && (x < rect.left || x > rect.right)) return true;
+    if (style.overflowY !== 'visible' && (y < rect.top || y > rect.bottom)) return true;
   }
   return false;
 }
