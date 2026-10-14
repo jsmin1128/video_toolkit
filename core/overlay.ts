@@ -1,6 +1,7 @@
 import type { ContentScriptContext } from '#imports';
 import controlsCss from './controls.css?inline';
 import css from './overlay.css?inline';
+import { findVideoAt } from './video';
 
 export interface Control {
   element: HTMLElement;
@@ -9,7 +10,6 @@ export interface Control {
 }
 
 const HIDE_DELAY = 2500;
-const MIN_VIDEO_WIDTH = 200;
 
 export function createOverlay(ctx: ContentScriptContext, controls: Control[]) {
   const host = document.createElement('video-toolkit');
@@ -69,7 +69,7 @@ export function createOverlay(ctx: ContentScriptContext, controls: Control[]) {
     'mousemove',
     (event) => {
       if (videos.length === 0) return;
-      const video = findVideoAt(videos, event.clientX, event.clientY);
+      const video = findVideoAt(videos, event.clientX, event.clientY, host);
       if (video) show(video);
       else if (!hovering) hide();
     },
@@ -77,12 +77,4 @@ export function createOverlay(ctx: ContentScriptContext, controls: Control[]) {
   );
   ctx.addEventListener(document, 'fullscreenchange', hide);
   ctx.onInvalidated(() => host.remove());
-}
-
-function findVideoAt(videos: HTMLCollectionOf<HTMLVideoElement>, x: number, y: number) {
-  for (const video of videos) {
-    const rect = video.getBoundingClientRect();
-    const inside = x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
-    if (inside && rect.width >= MIN_VIDEO_WIDTH) return video;
-  }
 }
