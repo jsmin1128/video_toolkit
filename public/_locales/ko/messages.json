@@ -1,4 +1,6 @@
 {
   "extName": { "message": "동영상 툴킷" },
-  "extDescription": { "message": "모든 동영상의 재생 속도 조절과 PiP" }
+  "extDescription": { "message": "모든 동영상의 재생 속도 조절과 PiP" },
+  "resetSpeed": { "message": "1배속으로" },
+  "pip": { "message": "화면 속 화면" }
 }
