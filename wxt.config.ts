@@ -2,7 +2,7 @@ import { defineConfig } from 'wxt';
 
 export default defineConfig({
   manifest: {
-    name: '__MSG_extName__',
+    name: 'Video Toolkit',
     description: '__MSG_extDescription__',
     default_locale: 'en',
   },

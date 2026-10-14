@@ -1,5 +1,4 @@
 {
-  "extName": { "message": "Video Toolkit" },
   "extDescription": { "message": "Playback speed and Picture-in-Picture for any video" },
   "chooseSpeed": { "message": "Choose speed" },
   "pip": { "message": "Picture-in-Picture" },
