@@ -1,9 +1,11 @@
 import type { ContentScriptContext } from '#imports';
+import controlsCss from './controls.css?inline';
 import css from './overlay.css?inline';
 
 export interface Control {
   element: HTMLElement;
-  setVideo(video: HTMLVideoElement): void;
+  // Called every time the controls are shown for a video.
+  update(video: HTMLVideoElement): void;
 }
 
 const HIDE_DELAY = 2500;
@@ -14,7 +16,7 @@ export function createOverlay(ctx: ContentScriptContext, controls: Control[]) {
   const shadow = host.attachShadow({ mode: 'open' });
   const style = document.createElement('style');
   const panel = document.createElement('div');
-  style.textContent = css;
+  style.textContent = controlsCss + css;
   panel.className = 'panel';
   panel.hidden = true;
   panel.append(...controls.map((control) => control.element));
@@ -26,20 +28,16 @@ export function createOverlay(ctx: ContentScriptContext, controls: Control[]) {
     panel.addEventListener(type, (event) => event.stopPropagation());
   }
 
-  let video: HTMLVideoElement | undefined;
   let hovering = false;
   let hideTimer: number | undefined;
 
-  function show(target: HTMLVideoElement) {
-    if (target !== video) {
-      video = target;
-      for (const control of controls) control.setVideo(target);
-    }
+  function show(video: HTMLVideoElement) {
+    for (const control of controls) control.update(video);
 
     const parent = document.fullscreenElement ?? document.body;
     if (host.parentNode !== parent) parent.append(host);
 
-    const rect = target.getBoundingClientRect();
+    const rect = video.getBoundingClientRect();
     panel.style.left = `${rect.left + rect.width / 2}px`;
     panel.style.top = `${Math.max(rect.top, 0) + 16}px`;
     panel.hidden = false;
@@ -65,8 +63,8 @@ export function createOverlay(ctx: ContentScriptContext, controls: Control[]) {
     document,
     'mousemove',
     (event) => {
-      const target = findVideoAt(event.clientX, event.clientY);
-      if (target) show(target);
+      const video = findVideoAt(event.clientX, event.clientY);
+      if (video) show(video);
       else if (!hovering) hide();
     },
     { capture: true },

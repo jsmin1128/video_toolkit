@@ -1,10 +1,12 @@
 import { createOverlay } from '@/core/overlay';
 import { createPipButton } from '@/features/pip';
-import { createSpeedControl } from '@/features/speed';
+import { createSpeedControl, keepSpeed } from '@/features/speed';
+import { createSubtitlePipButton } from '@/features/subtitle-pip';
 
 export default defineContentScript({
   matches: ['*://*.netflix.com/*'],
   main(ctx) {
-    createOverlay(ctx, [createSpeedControl(ctx), createPipButton()]);
+    keepSpeed(ctx);
+    createOverlay(ctx, [createSpeedControl(), createPipButton(), createSubtitlePipButton()]);
   },
 });

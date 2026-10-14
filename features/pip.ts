@@ -24,7 +24,7 @@ export function createPipButton(): Control {
 
   return {
     element,
-    setVideo(target) {
+    update(target) {
       video = target;
     },
   };

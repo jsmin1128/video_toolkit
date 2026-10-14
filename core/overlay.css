@@ -11,41 +11,10 @@
   padding: 4px;
   border-radius: 8px;
   background: rgb(0 0 0 / 60%);
-  color: #fff;
-  font: 500 14px/1 system-ui, sans-serif;
   transform: translateX(-50%);
   user-select: none;
 }
 
 .panel[hidden] {
   display: none;
-}
-
-.speed {
-  display: flex;
-  align-items: center;
-}
-
-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 32px;
-  height: 32px;
-  padding: 0 6px;
-  border: 0;
-  border-radius: 6px;
-  background: none;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-}
-
-button:hover {
-  background: rgb(255 255 255 / 20%);
-}
-
-.value {
-  min-width: 52px;
-  font-variant-numeric: tabular-nums;
 }

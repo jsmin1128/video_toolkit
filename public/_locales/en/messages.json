@@ -2,5 +2,6 @@
   "extName": { "message": "Video Toolkit" },
   "extDescription": { "message": "Playback speed and Picture-in-Picture for any video" },
   "resetSpeed": { "message": "Reset to 1x" },
-  "pip": { "message": "Picture-in-Picture" }
+  "pip": { "message": "Picture-in-Picture" },
+  "subtitlePip": { "message": "Picture-in-Picture with subtitles" }
 }

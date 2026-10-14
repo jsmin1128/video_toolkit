@@ -1,0 +1,53 @@
+body {
+  margin: 0;
+  background: #000;
+  overflow: hidden;
+  user-select: none;
+}
+
+video {
+  position: fixed;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+}
+
+.subtitle {
+  position: fixed;
+  right: 0;
+  bottom: 6%;
+  left: 0;
+  padding: 0 4%;
+  color: #fff;
+  font-family: system-ui, sans-serif;
+  font-size: clamp(12px, min(6vh, 3.4vw), 32px);
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  text-shadow: 0 0 4px #000, 0 0 4px #000;
+  white-space: pre-line;
+  transition: bottom 0.2s;
+}
+
+.controls {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  background: linear-gradient(transparent, rgb(0 0 0 / 70%));
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+body:hover .controls {
+  opacity: 1;
+}
+
+body:hover .subtitle {
+  bottom: 52px;
+}
